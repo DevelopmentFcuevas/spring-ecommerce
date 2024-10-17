@@ -1,0 +1,26 @@
+################################
+##### eCommerce Properties #####
+################################
+
+#Configuring application name
+spring.application.name=spring-ecommerce
+
+#Configuring port
+server.port=8080
+
+#Configuring Datasource
+spring.datasource.hikari.connectionTimeout=20000
+spring.datasource.hikari.maximumPoolSize=5
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://localhost:5432/main_db
+spring.datasource.username=postgres
+spring.datasource.password=123
+
+#Configuring Jpa
+spring.jpa.database=POSTGRESQL
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+spring.messages.basename=messages
+spring.messages.encoding=UTF-8

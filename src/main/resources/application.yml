@@ -1,0 +1,17 @@
+#spring.application.name=spring-ecommerce
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    #platform: postgres
+    url: jdbc:postgresql://localhost:5432/main_db
+    username: postgres
+    password: 123
+    driverClassName: org.postgresql.Driver
+  messages:
+    basename:messages_es
+    encoding:UTF-8

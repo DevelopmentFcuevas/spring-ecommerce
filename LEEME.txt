@@ -1,0 +1,35 @@
+DIAGRAMA DE ENTIDAD DE RELACION(DER).
+--------------------------------------------------------------
+
+
+- TABLA USUARIO:
+Un usuario puede tener de uno a varios productos, un usuario como administrador puede subir a la plataforma al 
+ecommerce uno o varios productos.
+
+- TABLA PRODUCTO
+Con JPA crear aqui un atributo que permita identificar que productos han sido subidos por un usuario. Posteriormente
+si es que queremos tener visibilidad entre ambos lados(Usuario-Producto) podriamos crear en la tabla productos
+una lista para que podamos obtener todos los productos que tiene un usuario.
+
+- TABLA ORDEN
+Un usuario puede tener varios detalles de Orden. Una Orden es como una especie de factura pero es unicamente
+la cabecera la que tiene los datos principales. Entonces un Usuario puede tener varias Ordenes porque puede
+hacer varias compras.
+Se va a crear un atributo de tipo Usuario para que se mapee como una columna de Usuario_id para que nos permita
+identificar a que usuario pertenece una orden.
+
+- TABLA DETALLEORDEN
+Una Orden puede tener unicamente un detalleOrden, cada orden o cada factura que se le haga al usuario va a tener
+siempre un detalle, solo uno, en el detalleOrden van a estar tambien los productos, en un detalleOrden pueden haber
+varios productos.
+**********************************************************************************************************************************************************
+
+AGREGAR BOOTSTRAP AL PROYECTO
+
+- DENTRO DE LA CARPETA "static" SE DEBEN COPIAR LOS CSS Y JS
+- DENTRO DE LA CARPETA CREADA(ADMINISTRADOR) COPIAR EL index.html Y RENOMBRAR POR home.html
+**********************************************************************************************************************************************************
+
+
+th:insert fragments or th:include
+https://anshulgnit.blogspot.com/2018/05/difference-between-thymeleaf-attribute-replace-insert-and-include.html#:~:text=th%3Ainsert%20%2D%20It%20will%20simply,but%20excluding%20the%20fragment%20tag.
