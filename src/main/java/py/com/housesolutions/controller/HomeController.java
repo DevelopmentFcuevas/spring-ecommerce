@@ -24,7 +24,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HomeController {
     /*
-    * Home del Usuario
+     *
+     * Esta es la home del Usuario.
+     *
     * */
     @Autowired
     private ProductoService productoService;
@@ -37,7 +39,7 @@ public class HomeController {
     public String home(Model model, HttpSession session) {
         try {
             log.info("HomeController-home::Obteniendo el listado de Productos para la vista de los usuarios");
-            //model.addAttribute("session", session.getAttribute("idUsuario"));
+
             // Obtener el ID del usuario de la sesión
             Long idUsuario = (Long) session.getAttribute("idUsuario");
             if (idUsuario != null) {
@@ -192,7 +194,6 @@ public class HomeController {
             log.info("HomeController-order::Ver la orden de compras");
             List<DetalleOrdenDTO> detalleCarrito = cartService.getCart();
             OrdenDTO ordenDTO = cartService.getOrden();
-            //UserDTO userDTO = usuarioService.findById(Long.parseLong((String) session.getAttribute("idUsuario")));
 
             // Obtener el ID del usuario desde la sesión como Long
             Long idUsuario = (Long) session.getAttribute("idUsuario");
@@ -212,7 +213,6 @@ public class HomeController {
             log.error("HomeController-order::Error al obtener la orden de compras", e);
             // Pasar un mensaje de error a la vista si ocurre alguna excepción
             model.addAttribute("error", true);
-            //model.addAttribute("message", "Ocurrió un error al obtener la orden de compras");
             model.addAttribute("message", e.getMessage());
 
             //Volver a la vista home y mostrar mensaje de error al usuario.
@@ -234,7 +234,6 @@ public class HomeController {
 
             // Llamar al servicio para guardar la orden
             cartService.saveOrder(userDTO.getId());
-            //return "redirect:/";
 
             model.addAttribute("productos", productoService.findAll());
             return ViewNames.HOME_VIEW;
@@ -243,7 +242,6 @@ public class HomeController {
             log.error("HomeController-saveOrder::Error al guardar la orden de compras", e);
             // Pasar un mensaje de error a la vista si ocurre alguna excepción
             model.addAttribute("error", true);
-            //model.addAttribute("message", "Ocurrió un error al guardar la orden de compras");
             model.addAttribute("message", e.getMessage());
 
             //Volver a la vista home y mostrar mensaje de error al usuario.
@@ -255,12 +253,6 @@ public class HomeController {
 
     @PostMapping("/search")
     public String searchProduct(@RequestParam String nombre, Model model) throws Exception {
-        //log.info("Nombre del producto: {}", nombre);
-        ////esta escrito en lambda, pasar con chatgpt a funcion normal.
-        //List<Producto> productos = productoService.findAll().stream().filter(p -> p.getNombre().contains(nombre)).collect(Collectors.toList());
-        //model.addAttribute("productos", productos);
-        //return "usuario/home";
-
         try {
             log.info("HomeController-search::Búsqueda de Producto desde el Home del usuario");
 

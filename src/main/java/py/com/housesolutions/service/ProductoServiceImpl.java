@@ -112,7 +112,6 @@ public class ProductoServiceImpl implements ProductoService {
         file.delete();
     }
 
-
     //@Override
     //public List<Producto> findAll() {
     //return repository.findAll();
@@ -166,12 +165,10 @@ public class ProductoServiceImpl implements ProductoService {
             return toDto(savedProducto);
         } catch (DataIntegrityViolationException e) {
             log.error("Error en el ProductoService al guardar Producto: violación de integridad de datos", e);
-            //throw new Exception("Ya existe un producto con el mismo nombre.", e);
             throw new ProductAlreadyExistsException("El Nombre: '"+productDTO.getNombre()+"' ya está en uso.");
         } catch (Exception e) {
             // Lanzar una excepción personalizada o regresar un valor opcional
-            //throw new ServiceException("Error al guardar el producto", e);
-            log.error("Error en el ProductoService al guardar Producto", e.getMessage());
+            log.error("Error en el ProductoService al guardar Producto", e);
             throw new Exception("Error al guardar el producto", e);
         }
     }
@@ -226,7 +223,7 @@ public class ProductoServiceImpl implements ProductoService {
             log.info("ProductoService-update::Acción completada sin errores");
             return toDto(updatedProducto);
         } catch (Exception e) {
-            log.error("ProductoService-update::Error al al intentar actualizar el producto con ID: " + id, e.getMessage());
+            log.error("ProductoService-update::Error al al intentar actualizar el producto con ID: " + id, e);
             throw new Exception("Error en el Servicio al actualizar Producto con el Identificador Proporcionado: " + id);
         }
     }
@@ -250,7 +247,7 @@ public class ProductoServiceImpl implements ProductoService {
             repository.deleteById(id);
             log.info("ProductoService-delete::Acción completada sin errores");
         } catch (Exception e) {
-            log.error("ProductoService-delete::Error al eliminar el producto con ID: " + id, e.getMessage());
+            log.error("ProductoService-delete::Error al eliminar el producto con ID: " + id, e);
             throw new Exception("Error en el Servicio al eliminar Producto con el Identificador Proporcionado: " + id);
         }
     }

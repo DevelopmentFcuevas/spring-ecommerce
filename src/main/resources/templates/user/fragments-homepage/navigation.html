@@ -41,6 +41,11 @@
                         Compras
                     </a>
                 </li>
+				<li class="nav-item" th:if="${usuario != null}">
+                    <a class="nav-link" th:href="@{/user/cerrar}">
+                        Salir del Sistema
+                    </a>
+                </li>
 				<!--<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Shop

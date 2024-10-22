@@ -51,7 +51,6 @@ public class ProductoController {
     public String create(Model model) {
         log.info("ProductoController-create::formulario para crear nuevo Producto");
         model.addAttribute("producto", new ProductDTO());
-        //return "products/create";
         return "admin/products/create";
     }
     @PostMapping("/save")
@@ -67,7 +66,6 @@ public class ProductoController {
         // la experiencia del usuario y asegurar la integridad de los datos.
         if (result.hasErrors()) {
             log.info("El formulario tiene errores" + result.getFieldErrors());
-            //return "products/create";
             return "admin/products/create";
         }
 
@@ -80,13 +78,11 @@ public class ProductoController {
             model.addAttribute("success", true);
             model.addAttribute("message", "¡Registro creado exitosamente!");
             model.addAttribute("productos", service.findAll());
-            //return "products/show"; // Vuelve al listado de productos con el nuevo registro creado.
             return "admin/products/show"; // Vuelve al listado de productos con el nuevo registro creado.
         } catch (Exception e) {
             log.error("ProductoController-save::Error al guardar Producto", e);
             model.addAttribute("error", true);
             model.addAttribute("message", e.getMessage());
-            //return "products/create"; // Vuelve al formulario de creación con el mensaje de error
             return "admin/products/create";
         }
     }
@@ -114,14 +110,12 @@ public class ProductoController {
         try {
             Optional<ProductDTO> productDTO = service.get(id);
             model.addAttribute("producto", productDTO.get());
-            //return "products/edit";
             return "admin/products/edit";
         } catch (Exception e) {
             log.error("ProductoController-edit::formulario para editar Producto, Error al obtener el Producto con ID: "+id, e);
             model.addAttribute("error", true);
             model.addAttribute("message", e.getMessage());
             model.addAttribute("productos", service.findAll());
-            //return "products/show"; // Vuelve al listado de productos con el mensaje de error.
             return "admin/products/show"; // Vuelve al listado de productos con el mensaje de error.
         }
     }
@@ -136,7 +130,6 @@ public class ProductoController {
         }
 
         try {
-            //service.update(productDTO.getId(), productDTO);
             service.update(productDTO.getId(), productDTO, file);
             model.addAttribute("success", true);
             model.addAttribute("message", "¡Registro actualizado exitosamente!");

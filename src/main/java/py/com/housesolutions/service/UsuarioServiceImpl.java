@@ -7,6 +7,8 @@ import py.com.housesolutions.domain.Usuario;
 import py.com.housesolutions.model.UserDTO;
 import py.com.housesolutions.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -92,5 +94,23 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+
+    @Override
+    public List<UserDTO> findAll() throws Exception {
+        try {
+            log.info("UsuarioService-findAll::Obteniendo lista de usuarios");
+            List<Usuario> usuarioList = repository.findAll();
+            List<UserDTO> userDTOS = new ArrayList<>();
+            for (Usuario usuario : usuarioList) {
+                UserDTO dto = toDto(usuario);
+                userDTOS.add(dto);
+            }
+            log.info("UsuarioService-findAll::Acción completada sin errores.");
+            return userDTOS;
+        } catch (Exception e) {
+            log.error("Error en UsuarioService al obtener la lista de Usuarios", e);
+            throw new Exception("Error al obtener el listado de usuarios. Por favor, inténtelo de nuevo más tarde o consulte con el Administrador del Sistema.");
+        }
+    }
 
 }

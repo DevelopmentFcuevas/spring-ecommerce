@@ -11,5 +11,4 @@ import java.util.List;
 public interface OrdenRepository extends JpaRepository<Orden, Long> {
     //Buscar todas las órdenes por usuario.
     List<Orden> findByUsuario(Usuario usuario);
-
 }

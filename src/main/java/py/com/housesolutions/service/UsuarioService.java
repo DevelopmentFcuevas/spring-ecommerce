@@ -3,6 +3,7 @@ package py.com.housesolutions.service;
 import py.com.housesolutions.domain.Usuario;
 import py.com.housesolutions.model.UserDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
@@ -12,5 +13,6 @@ public interface UsuarioService {
     UserDTO findById(Long id);
     UserDTO save(UserDTO userDTO) throws Exception;
     Optional<UserDTO> findByEmail(UserDTO userDTO) throws Exception;
+    List<UserDTO> findAll() throws Exception;
 
 }

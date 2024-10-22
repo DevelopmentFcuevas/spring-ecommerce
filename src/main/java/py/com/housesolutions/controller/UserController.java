@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import py.com.housesolutions.model.DetalleOrdenDTO;
 import py.com.housesolutions.model.OrdenDTO;
 import py.com.housesolutions.model.UserDTO;
+import py.com.housesolutions.service.DetalleOrdenService;
 import py.com.housesolutions.service.OrdenService;
 import py.com.housesolutions.service.ProductoService;
 import py.com.housesolutions.service.UsuarioService;
@@ -29,6 +31,8 @@ public class UserController {
     private UsuarioService usuarioService;
     @Autowired
     private ProductoService productoService;
+    @Autowired
+    private DetalleOrdenService detalleOrdenService;
 
     @GetMapping("/registro")
     public String create() {
@@ -52,11 +56,8 @@ public class UserController {
                     .map(error -> error.getDefaultMessage())
                     .collect(Collectors.toList());
 
-            //model.addAttribute("error", true);
-            //model.addAttribute("message", result.getFieldErrors());
             model.addAttribute("errorFormulario", true);
             model.addAttribute("message", errores); // Pasar la lista de errores a la vista
-
             return "user/registro";
         }
 
@@ -114,7 +115,6 @@ public class UserController {
             log.error("UserController-save::Error al acceder a la aplicación desde el login", e);
             model.addAttribute("error", true);
             model.addAttribute("message", e.getMessage());
-            //return "user/login"; // Vuelve al formulario de login con el mensaje de error
             return ViewNames.USER_LOGIN_VIEW;
         }
     }
@@ -128,10 +128,9 @@ public class UserController {
             if (idUsuario != null) {
                 // Buscar el usuario en la base de datos
                 UserDTO userDTO = usuarioService.findById(idUsuario);
-                //model.addAttribute("usuario", userDTO);
 
                 List<OrdenDTO> ordenDTOS = ordenService.findByUsuario(userDTO);
-                model.addAttribute("ordenes", ordenDTOS);
+                model.addAttribute("ordenes", ordenDTOS); //Le pasa al model una lista de Órdenes del usuario conectado.
             } else {
                 model.addAttribute("usuario", null);
             }
@@ -140,8 +139,6 @@ public class UserController {
             log.error("UserController-obtenerCompras::Error al obtener compras", e);
             model.addAttribute("error", true);
             model.addAttribute("message", e.getMessage());
-            //return "user/login"; // Vuelve al formulario de login con el mensaje de error
-            //return ViewNames.USER_LOGIN_VIEW;
             return "user/compras";
         }
     }
@@ -149,19 +146,10 @@ public class UserController {
 
     @GetMapping("/detalle/{id}")
     public String detalleCompra(@PathVariable Long id, HttpSession session, Model model) {
-        //log.info("Id de la orden: {}", id);
-        //Optional<Orden> orden = ordenService.findById(id);
-        //model.addAttribute("detalles", orden.get().getDetalleOrden());
-        ////session
-        //model.addAttribute("session", session.getAttribute("idUsuario"));
-        //return "usuario/detallecompra";
         try {
             log.info("UserController-detalleCompra::Inicia método para obtener detalle de compras de usuario");
-            OrdenDTO ordenDTO = ordenService.findById(id);
-            //OrdenDTO ordenDTO = ordenService.findByUsuario(ordenDTO.getUserDTO());
-
-            model.addAttribute("detalles", ordenDTO);
-            model.addAttribute("idUsuario", session.getAttribute("idUsuario"));
+            List<DetalleOrdenDTO> detalleOrdenDTOS = detalleOrdenService.findByOrdenId(id);
+            model.addAttribute("detalles", detalleOrdenDTOS);
             return "user/detallecompra";
         } catch (Exception e) {
             log.error("UserController-detalleCompra::Error al obtener detalle de compras", e);
@@ -169,10 +157,22 @@ public class UserController {
             model.addAttribute("message", e.getMessage());
             return "user/detallecompra";
         }
-
-
     }
 
+    @GetMapping("/cerrar")
+    public String cerrarSession(Model model, HttpSession session) {
+        try {
+            log.info("UserController-cerrarSession::Obteniendo el listado de Productos para la vista de los usuarios");
 
+            session.removeAttribute("idUsuario");
+            model.addAttribute("productos", productoService.findAll());
+        } catch (Exception e) {
+            log.error("HomeController-cerrarSession::Error en el Controller al obtener el listado de Productos ", e);
+            model.addAttribute("error", true);
+            model.addAttribute("message", e.getMessage());
+        }
 
+        return ViewNames.HOME_VIEW;
+    }
+    
 }

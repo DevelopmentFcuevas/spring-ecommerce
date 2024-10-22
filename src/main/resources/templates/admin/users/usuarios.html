@@ -25,7 +25,7 @@
 		<div id="wrapper">
 		
 			<!-- Fragment sidebar -->
-			<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+			<div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
 			<!-- Content Wrapper -->
 			<div id="content-wrapper" class="d-flex flex-column">
@@ -34,7 +34,7 @@
 				<div id="content">
 					
 					<!-- Fragment topbar -->
-					<div th:replace="~{fragments/topbar :: topbar}"></div>
+					<div th:replace="~{admin/fragments/topbar :: topbar}"></div>
 					
 					<!-- container-fluid - Begin Page Product List -->
 					<div class="container-fluid">
@@ -43,15 +43,14 @@
 						<div class="d-sm-flex align-items-center justify-content-between mb-4">
 							<h1 class="h3 mb-0 text-gray-800" th:text="#{product.show.heading}"></h1>
 							<a th:href="@{/products/create}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-								<i class="fa fa-plus fa-sm text-white-50"></i> Crear Nuevo Producto
+								<i class="fa fa-plus fa-sm text-white-50"></i> Crear Nuevo Usuario
 							</a>
 						</div>
 						
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a th:href="@{/admin}">Dashboard</a></li>
-								<!--<li class="breadcrumb-item"><a href="#">Productos</a></li>-->
-								<li class="breadcrumb-item active" aria-current="page">Productos</li>
+								<li class="breadcrumb-item active" aria-current="page">Usuarios</li>
 							</ol>
 						</nav>
 
@@ -66,59 +65,63 @@
 							<hr>
 							<p class="mb-0" th:text="${message}"></p>
 						</div>
-						<!-- DataTale Listado de Productos -->
+						<!-- DataTale Listado de Usuarios -->
 						<div th:unless="${error} == false" class="card shadow mb-4">
 						
 							<!-- Condicionar si la lista está vacía -->
-							<div class="alert alert-warning" role="alert" th:if="${productos.size() == 0}">
-								Aún no hay productos cargados <a th:href="@{/products/create}" class="alert-link">Crear Nuevo Producto</a>
+							<div class="alert alert-warning" role="alert" th:if="${usuarios.size() == 0}">
+								Aún no hay usuarios cargados <a th:href="@{/products/create}" class="alert-link">Crear Nuevo Usuario</a>
 							</div>
 							
-							<!-- Mostrar el datatable si hay productos -->
-							<div th:if="${productos.size() > 0}">
+							<!-- Mostrar el datatable si hay usuarios -->
+							<div th:if="${usuarios.size() > 0}">
 								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary" th:text="#{product.show.list.heading}"></h6>
+									<h6 class="m-0 font-weight-bold text-primary">Listado de Usuarios</h6>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="table table-bordered" id="dataTable-product" width="100%" cellspacing="0">
+										<table class="table table-bordered" id="dataTable-usuario" width="100%" cellspacing="0">
 											<thead>
 												<tr>
-													<th th:text="#{product.show.table.id}"></th>
-													<th th:text="#{product.show.table.name}"></th>
-													<th th:text="#{product.show.table.descripcion}"></th>
-													<th th:text="#{product.show.table.inventario}"></th>
-													<th th:text="#{product.show.table.precio}"></th>
-													<th th:text="#{product.show.table.accion}"></th>
+													<th>#ID</th>
+													<th>Nombre</th>
+													<th>UserName</th>
+													<th>Email</th>
+													<th>Direccion</th>
+													<th>Telefono</th>
+													<th>Tipo</th>
+													<th>Accion</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
-													<th th:text="#{product.show.table.id}"></th>
-													<th th:text="#{product.show.table.name}"></th>
-													<th th:text="#{product.show.table.descripcion}"></th>
-													<th th:text="#{product.show.table.inventario}"></th>
-													<th th:text="#{product.show.table.precio}"></th>
-													<th th:text="#{product.show.table.accion}"></th>
+													<th>#ID</th>
+													<th>Nombre</th>
+													<th>UserName</th>
+													<th>Email</th>
+													<th>Direccion</th>
+													<th>Telefono</th>
+													<th>Tipo</th>
+													<th>Accion</th>
 												</tr>
 											</tfoot>
 											<tbody>
-												<tr th:each="producto:${productos}">
-													<td th:text="${producto.id}"></td>
-													<td th:text="${producto.nombre}"></td>
-													<td th:text="${producto.descripcion}"></td>
-													<td th:text="${producto.cantidad}"></td>
-													<td th:text="${producto.precio}"></td>
+												<tr th:each="usuario:${usuarios}">
+													<td th:text="${usuario.id}"></td>
+													<td th:text="${usuario.nombre}"></td>
+													<td th:text="${usuario.username}"></td>
+													<td th:text="${usuario.email}"></td>
+													<td th:text="${usuario.direccion}"></td>
+													<td th:text="${usuario.telefono}"></td>
+													<td th:text="${usuario.tipo}"></td>
 													<td>
-														<!-- <a class="btn btn-warning" th:href="@{productos/edit/{id} (id=${producto.id})}" th:text="#{btn.edit}"></a> 
-														<a class="btn btn-danger" th:href="@{productos/delete/{id} (id=${producto.id})}" th:text="#{btn.delete}"></a> -->
 														<a href="#" class="btn btn-info btn-circle" th:title="#{btn.details}">
 															<i class="fas fa-info"></i>
 														</a>
-														<a th:href="@{products/edit/{id} (id=${producto.id})}" class="btn btn-warning btn-circle" th:title="#{btn.edit}">
+														<a th:href="@{admin/edit/{id} (id=${usuario.id})}" class="btn btn-warning btn-circle" th:title="#{btn.edit}">
 															<i class="fas fa-edit"></i>
 														</a>
-														<a th:href="@{products/delete/{id} (id=${producto.id})}" class="btn btn-danger btn-circle" th:title="#{btn.delete}">
+														<a th:href="@{admin/delete/{id} (id=${usuario.id})}" class="btn btn-danger btn-circle" th:title="#{btn.delete}">
 															<i class="fas fa-trash"></i>
 														</a>
 													</td>
@@ -140,7 +143,7 @@
 				<!-- End of Main Content -->
 				
 				<!-- Fragment footer -->
-				<div th:replace="~{fragments/footer :: footer}"></div>
+				<div th:replace="~{admin/fragments/footer :: footer}"></div>
 				
 			</div>
 			<!-- End of Content Wrapper -->
@@ -149,7 +152,7 @@
 		<!-- End of Page Wrapper -->
 
 		<!-- Fragment scroll-to-top-button -->
-		<div th:replace="~{fragments/scroll-to-top-button :: scroll-to-top-button}"></div>
+		<div th:replace="~{admin/fragments/scroll-to-top-button :: scroll-to-top-button}"></div>
 
 		<!-- Bootstrap core JavaScript-->
 		<script th:src="@{/sb-admin-2/vendor/jquery/jquery.min.js}"></script>
@@ -169,8 +172,8 @@
 		<script>
 			$(document).ready(function() {
 	
-				console.log("inicializando el dataTable listado de productos");
-				$('#dataTable-product').DataTable({
+				console.log("inicializando el dataTable de Admin-Usuarios::listado de usuarios");
+				$('#dataTable-usuario').DataTable({
 					"language": {
 						"url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
 					}
